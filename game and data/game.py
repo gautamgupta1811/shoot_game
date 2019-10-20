@@ -1,6 +1,5 @@
 import random
 import pygame
-from pygame.locals import *
 import time
 pygame.init()
 
@@ -9,9 +8,9 @@ height = 500
 
 screen = pygame.display.set_mode((width, height))
 
-#white = 255, 255, 255
-#red = 255, 0, 0
-#yellow = 255, 255, 0
+white = 255, 255, 255
+red = 255, 0, 0
+yellow = 255, 255, 0
 
 gunPointer = pygame.image.load('aim_pointer.png')
 gunPointerWidth = gunPointer.get_width()
