@@ -1,4 +1,4 @@
-# shoot_game
+# Shoot_Game
 ![level 1](https://github.com/gautamgupta1811/shoot_game/blob/master/level1.png)
 
 ![level 2](https://github.com/gautamgupta1811/shoot_game/blob/master/level2.png)
