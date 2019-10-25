@@ -114,24 +114,23 @@ def gameover():
         time.sleep(5)
 
 
-def level3():
+def level1():
 
-    zombiesList =[]
-    zombiesX = []
-    zombiesY = []
-    zombies_rect = []
+    zombiesList = []
+
+    class Zombies:
+        def __init__(self):
+            self.image = random.choice(zombies)
+            self.zwidth = self.image.get_width()
+            self.zheight = self.image.get_height()
+            self.x = random.randint(0, width - self.zwidth)
+            self.y = random.randint(0, height - self.zheight)
+            self.rect = pygame.Rect(self.x, self.y, self.zheight, self.zwidth)
 
     for i in range(2):
-        zombiesImages = random.choice(zombies)
-        zombiesList.append(zombiesImages)
-        zombieWidth = zombiesImages.get_width()
-        zombieHeight = zombiesImages.get_height()
-        zombieX = random.randint(0, width - zombieWidth)
-        zombiesX.append(zombieX)
-        zombieY = random.randint(0, height - zombieHeight)
-        zombiesY.append(zombieY)
-        zombie_rect = pygame.Rect(zombiesX[i], zombiesY[i], zombieWidth, zombieHeight)
-        zombies_rect.append((zombie_rect))
+        zombie = Zombies()
+        zombiesList.append(zombie)
+
 
 
 
@@ -148,7 +147,7 @@ def level3():
         posX, posY = pygame.mouse.get_pos()
         screen.blit(background, (0, 0))
         for i in range(2):
-            screen.blit(zombiesList[i], (zombiesX[i], zombiesY[i]))
+            screen.blit(zombiesList[i].image, (zombiesList[i].x, zombiesList[i].y))
 
         screen.blit(gun, (posX, gunY))
         screen.blit(gunPointer, (posX - gunPointerWidth / 2, posY - gunPointerHeight / 2))
@@ -165,26 +164,18 @@ def level3():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 gunFire.play()
 
-
                 for i in range(2):
-                    if gunPointer_rect.colliderect(zombies_rect[i]):
-                        bloodPatch(zombiesX[i] + zombieWidth / 2, zombiesY[i] + zombieHeight / 2)
 
+                    if gunPointer_rect.colliderect(zombiesList[i].rect):
+                        bloodPatch(zombiesList[i].x + zombiesList[i].zwidth / 2, zombiesList[i].y + zombiesList[i].zheight / 2)
                         del zombiesList[i]
-                        zombiesImages = random.choice(zombies)
-                        zombiesList.append(zombiesImages)
-                        zombieWidth = zombiesImages.get_width()
-                        zombieHeight = zombiesImages.get_height()
-                        del zombiesX[i]
-                        zombieX = random.randint(0, width - zombieWidth)
-                        zombiesX.append(zombieX)
-                        del zombiesY[i]
-                        zombieY = random.randint(0, height - zombieHeight)
-                        zombiesY.append(zombieY)
-                        del zombies_rect[i]
-                        zombie_rect = pygame.Rect(zombiesX[i], zombiesY[i], zombieWidth, zombieHeight)
-                        zombies_rect.append((zombie_rect))
                         count += 1
+                        zombie = Zombies()
+                        zombiesList.append(zombie)
+
+
+
+
 
 
 
@@ -194,8 +185,8 @@ def level3():
         timer(seconds)
         if seconds < 0:
             if count > 20:
-                win()
-                homescreen()
+                nextLevel()
+                level2()
             else:
                 gameover()
                 homescreen()
@@ -279,7 +270,7 @@ def level2():
 
 
 
-def level1():
+def level3():
 
     zombiesImages = random.choice(zombies)
     zombieWidth = zombiesImages.get_width()
@@ -296,6 +287,13 @@ def level1():
     pygame.time.set_timer(USEREVENT, 1000)
     seconds = 20
     while True:
+        posX, posY = pygame.mouse.get_pos()
+        screen.blit(background, (0, 0))
+        screen.blit(zombiesImages, (zombieX, zombieY))
+        zombie_rect = pygame.Rect(zombieX, zombieY, zombieWidth, zombieHeight)
+        screen.blit(gun, (posX, gunY))
+        screen.blit(gunPointer, (posX - gunPointerWidth / 2, posY - gunPointerHeight / 2))
+        gunPointer_rect = pygame.Rect(posX - gunPointerWidth, posY - gunPointerHeight, gunPointerWidth, gunPointerHeight)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -316,20 +314,14 @@ def level1():
                     count += 1
 
 
-        screen.fill(white)
-        posX, posY = pygame.mouse.get_pos()
-        screen.blit(background, (0, 0))
-        screen.blit(zombiesImages, (zombieX, zombieY))
-        zombie_rect = pygame.Rect(zombieX, zombieY, zombieWidth, zombieHeight)
-        screen.blit(gun, (posX, gunY))
-        screen.blit(gunPointer, (posX - gunPointerWidth / 2, posY - gunPointerHeight / 2))
-        gunPointer_rect = pygame.Rect(posX - gunPointerWidth / 2, posY - gunPointerHeight / 2, gunPointerWidth, gunPointerHeight)
+        # screen.fill(white)
+
         score(count)
         timer(seconds)
         if seconds < 0:
             if count > 20:
-                nextLevel()
-                level2()
+                win()
+                homescreen()
 
             else:
                 gameover()
@@ -339,3 +331,4 @@ def level1():
 
         pygame.display.update()
 homescreen()
+
