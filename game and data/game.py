@@ -83,7 +83,7 @@ def bloodPatch(posx, posy):
     while True:
         screen.blit(bloodPatchImg, (posx - bloodWidth/2, posy-bloodHeight/2))
         pygame.display.update()
-        time.sleep(0.1)
+        time.sleep(0.2)
         break
 
 
@@ -314,7 +314,7 @@ def level3():
                     count += 1
 
 
-        # screen.fill(white)
+        screen.fill(white)
 
         score(count)
         timer(seconds)
